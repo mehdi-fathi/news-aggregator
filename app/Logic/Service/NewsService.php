@@ -3,11 +3,12 @@
 
 namespace App\Logic\Service;
 
+use App\Logic\Utility\NewsFetcherUtility;
 use App\Repositories\News\NewsRepository;
 
 /**
  * Class NewsService
- * @package App\Logic
+ * @package App\Service\Logic
  */
 class NewsService extends AppService
 {
@@ -26,9 +27,27 @@ class NewsService extends AppService
      * @param int $last_days
      * @return array|null
      */
-    public function getNews(): ?array
+    public function getNews()
     {
-        dd("run");
+        $news = new NewsFetcherUtility('https://newsapi.org/v2/');
+
+
+        $queryParams = [
+            'q' => 'apple',
+            'from' => '2023-11-30',
+            'to' => '2023-11-30',
+            'sortBy' => 'popularity',
+            'apiKey' => 'cedc49391f90414382ff139b743013c8',
+            // more parameters...
+        ];
+
+
+        return $news->get( 'everything',$queryParams);
+
+        // $client = new \GuzzleHttp\Client();
+        // $request = new \GuzzleHttp\Psr7\Request('GET', 'https://newsapi.org/v2/everything?q=apple&from=2023-11-30&to=2023-11-30&sortBy=popularity&apiKey=cedc49391f90414382ff139b743013c8');
+        // $res = $client->sendAsync($request)->wait();
+        // return json_decode($res->getBody()->getContents(), true);
     }
 
 }
