@@ -19,7 +19,7 @@ class EloquentNewsRepository implements NewsRepository
      * EloquentUserRepository constructor.
      * @param News $news
      */
-    public function __coonstruct(News $news)
+    public function __construct(News $news)
     {
         $this->model = $news;
     }
@@ -28,6 +28,18 @@ class EloquentNewsRepository implements NewsRepository
      */
     public function getNews()
     {
+    }
+
+    public function getLatestNewsBySourceId(int $source_id)
+    {
+        $this->model->where('source_id', $source_id);
+        return $this;
+    }
+
+
+    public function createMany(array $data)
+    {
+        $this->model->createMany($data);
     }
 
 }

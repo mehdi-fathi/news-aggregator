@@ -50,4 +50,9 @@ class NewsService extends AppService
         // return json_decode($res->getBody()->getContents(), true);
     }
 
+    public function getLatestNewsBySourceId(int $source_id)
+    {
+        return $this->newsRepo->getLatestNewsBySourceId($source_id);
+    }
+
 }

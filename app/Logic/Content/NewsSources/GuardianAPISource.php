@@ -83,6 +83,7 @@ class GuardianAPISource implements NewsSource
     {
         $this->params['api-key'] = $this->getApiKey();
 
+        // https://content.guardianapis.com/search?api-key=test&show-fields=all&show-fields=all&from-date=2023-12-02T02:00:41Z&order-by=oldest
 
         return $this->newsFetcherUtility->get($this->getUrl(), $this->getParams());
     }
