@@ -7,7 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
- *
+ * @property  \App\Logic\Service\NewsService NewsService
  */
 class Controller extends BaseController
 {

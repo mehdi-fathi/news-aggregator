@@ -3,7 +3,6 @@
 
 namespace App\Logic\Service;
 
-use App\Logic\Utility\NewsFetcherUtility;
 use App\Repositories\News\NewsRepository;
 
 /**
@@ -23,31 +22,20 @@ class NewsService extends AppService
     }
 
     /**
-     * @param int $cnt_posts
-     * @param int $last_days
+     * @param $data
      * @return array|null
      */
-    public function getNews()
+    public function getFilteredNews($data)
     {
-        $news = new NewsFetcherUtility('https://newsapi.org/v2/');
+        collect($data)->filter()->each(function ($item, $key) {
+            match ($key) {
+                'source' => $this->newsRepo->getFilteredBySource($item),
+                'published_at' => $this->newsRepo->getFilteredByPublishedAt($item['from'], $item['to'] ?? null),
+                'category' => $this->newsRepo->getFilteredByCategory($item),
+            };
+        });
 
-
-        $queryParams = [
-            'q' => 'apple',
-            'from' => '2023-11-30',
-            'to' => '2023-11-30',
-            'sortBy' => 'popularity',
-            'apiKey' => 'cedc49391f90414382ff139b743013c8',
-            // more parameters...
-        ];
-
-
-        return $news->get('everything', $queryParams);
-
-        // $client = new \GuzzleHttp\Client();
-        // $request = new \GuzzleHttp\Psr7\Request('GET', 'https://newsapi.org/v2/everything?q=apple&from=2023-11-30&to=2023-11-30&sortBy=popularity&apiKey=cedc49391f90414382ff139b743013c8');
-        // $res = $client->sendAsync($request)->wait();
-        // return json_decode($res->getBody()->getContents(), true);
+        return $this->newsRepo->getFilteredData();
     }
 
     public function getCountNewsBySourceIdPublished(int $sourceId, string $publishedAt)
@@ -67,7 +55,7 @@ class NewsService extends AppService
      */
     public function createNews(array $data)
     {
-        return $this->model->create($data);
+        return $this->newsRepo->create($data);
     }
 
 }

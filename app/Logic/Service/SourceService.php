@@ -22,15 +22,6 @@ class SourceService extends AppService
     }
 
     /**
-     * @param array $data
-     * @return void
-     */
-    public function createSource(array $data)
-    {
-        return $this->model->create($data);
-    }
-
-    /**
      * @param string $sourceName
      * @param int $dataSourceId
      * @return void

@@ -28,7 +28,7 @@ class NewsController extends Controller
         // $total_records_gurdian = $this->NewsService->getCountNewsBySourceIdPublished(2, $yesterday);
         // $page = $total_records_gurdian >= 50 ? round(($total_records_gurdian / 50) + 1, 1) : 1;
         //
-        // GuardianNewsAPICollectorJob::dispatch();
+        GuardianNewsAPICollectorJob::dispatch();
         //
         // dd("test",$total_records_gurdian);
         //
