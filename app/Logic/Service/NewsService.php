@@ -9,7 +9,7 @@ use App\Repositories\News\NewsRepository;
  * Class NewsService
  * @package App\Service\Logic
  */
-class NewsService extends AppService
+final class NewsService extends AppService
 {
 
     /**

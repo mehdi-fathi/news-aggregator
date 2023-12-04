@@ -19,5 +19,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/list', [\App\Http\Controllers\Api\NewsController::class, 'list']);
-Route::get('/search', [\App\Http\Controllers\Api\NewsController::class, 'search']);
+// Version 1
+Route::prefix('v1')->group(function () {
+    Route::prefix('news')->group(function () {
+        Route::get('/list', [\App\Http\Controllers\Api\NewsController::class, 'list']);
+        Route::get('/search', [\App\Http\Controllers\Api\NewsController::class, 'search']);
+    });
+
+    Route::prefix('user-preference')->group(function () {
+        Route::post('/store', [\App\Http\Controllers\Api\UserPreferenceController::class, 'store']);
+        Route::put('/update', [\App\Http\Controllers\Api\UserPreferenceController::class, 'update']);
+        Route::delete('/delete', [\App\Http\Controllers\Api\UserPreferenceController::class, 'delete']);
+    });
+});

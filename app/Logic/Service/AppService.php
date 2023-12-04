@@ -6,32 +6,20 @@ namespace App\Logic\Service;
 
 use Illuminate\Support\Facades\Redis;
 
+/**
+ * @property  \App\Logic\Service\NewsService NewsService
+ */
 class AppService
 {
 
     /**
-     * @param string $key
-     * @return mixed
+     * @param $property
+     * @return mixed|void
      */
-    protected function getCacheData(string $key)
+    public function __get($property)
     {
-        $data = Redis::get($key);
-        $data = json_decode($data, true);
-
-        return $data;
-    }
-
-    /**
-     * @param string $key
-     * @param $data
-     * @param int $expCache
-     * @return mixed
-     */
-    protected function setCacheData(string $key, $data, $expCache = 10)
-    {
-        $data = json_encode($data);
-        Redis::setex($key, $expCache, $data);
-
-        return $data;
+        if (app($property)) {
+            return app($property);
+        }
     }
 }

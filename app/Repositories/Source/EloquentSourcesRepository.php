@@ -7,7 +7,7 @@ use App\Models\Source;
 /**
  * Class EloquentSourcesRepository
  */
-class EloquentSourcesRepository implements SourceRepository
+class EloquentSourcesRepository implements UserPreferenceRepository
 {
     /**
      * @var Source

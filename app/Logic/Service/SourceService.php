@@ -9,7 +9,7 @@ use App\Repositories\Source\SourceRepository;
  * Class SourceService
  * @package App\Service\Logic
  */
-class SourceService extends AppService
+final class SourceService extends AppService
 {
 
     /**
