@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/list', [\App\Http\Controllers\Api\NewsController::class, 'list']);
+Route::get('/search', [\App\Http\Controllers\Api\NewsController::class, 'search']);

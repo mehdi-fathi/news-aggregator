@@ -54,4 +54,10 @@ class News extends Model
     {
         return $query->where('category', $category);
     }
+
+    // Scope by a specific field
+    public function scopeSearch($query, ?string $text = null)
+    {
+        return $query->where('description', 'like', "%{$text}%");
+    }
 }

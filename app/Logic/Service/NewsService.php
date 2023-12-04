@@ -38,6 +38,13 @@ class NewsService extends AppService
         return $this->newsRepo->getFilteredData();
     }
 
+    public function searchNews($text)
+    {
+        $this->newsRepo->searchByText($text);
+
+        return $this->newsRepo->getFilteredData();
+    }
+
     public function getCountNewsBySourceIdPublished(int $sourceId, string $publishedAt)
     {
         return $this->newsRepo->getCountNewsBySourceIdPublished($sourceId, $publishedAt);
