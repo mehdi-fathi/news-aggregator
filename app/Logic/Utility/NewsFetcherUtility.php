@@ -13,15 +13,14 @@ class NewsFetcherUtility implements EndPointFetcher
     {
         $this->client = new \GuzzleHttp\Client([
             'base_uri' => $base_url, // Replace with the actual base URI
-            'headers' => [
-                'Authorization' => 'Bearer ' . env('NEWSCRED_API_KEY'),
-            ],
+
         ]);
     }
 
 
     public function get(string $uri, $queryParams)
     {
+        dump($queryParams);
         $res = $this->client->request('GET', $uri, ['query' => $queryParams]);
         return json_decode($res->getBody()->getContents(), true);
     }

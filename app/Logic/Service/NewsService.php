@@ -42,7 +42,7 @@ class NewsService extends AppService
         ];
 
 
-        return $news->get( 'everything',$queryParams);
+        return $news->get('everything', $queryParams);
 
         // $client = new \GuzzleHttp\Client();
         // $request = new \GuzzleHttp\Psr7\Request('GET', 'https://newsapi.org/v2/everything?q=apple&from=2023-11-30&to=2023-11-30&sortBy=popularity&apiKey=cedc49391f90414382ff139b743013c8');
@@ -50,9 +50,15 @@ class NewsService extends AppService
         // return json_decode($res->getBody()->getContents(), true);
     }
 
-    public function getLatestNewsBySourceId(int $source_id)
+    public function getCountNewsBySourceIdPublished(int $sourceId, string $publishedAt)
     {
-        return $this->newsRepo->getLatestNewsBySourceId($source_id);
+        return $this->newsRepo->getCountNewsBySourceIdPublished($sourceId, $publishedAt);
+    }
+
+
+    public function getLatestNewsBySourceIdPublished(int $sourceId, string $publishedAt)
+    {
+        return $this->newsRepo->getLatestNewsBySourceIdPublished($sourceId, $publishedAt);
     }
 
 }

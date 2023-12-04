@@ -13,7 +13,7 @@ class EloquentNewsRepository implements NewsRepository
     /**
      * @var User
      */
-    protected $model;
+    protected News $model;
 
     /**
      * EloquentUserRepository constructor.
@@ -30,16 +30,38 @@ class EloquentNewsRepository implements NewsRepository
     {
     }
 
-    public function getLatestNewsBySourceId(int $source_id)
+    /**
+     * @param int $sourceId
+     * @param string $publishedAt
+     * @return int
+     */
+    public function getCountNewsBySourceIdPublished(int $sourceId, string $publishedAt): int
     {
-        $this->model->where('source_id', $source_id);
-        return $this;
+        return News::query()->where('data_source_id', $sourceId)->whereDate('published_at', $publishedAt)->count();
     }
 
 
+    /**
+     * @param int $sourceId
+     * @param string $publishedAt
+     * @return int
+     */
+    public function getLatestNewsBySourceIdPublished(int $sourceId, string $publishedAt)
+    {
+        // return News::query()->where('data_source_id', $sourceId)->whereDate('published_at', $publishedAt)->count();
+
+        return News::query()->where('data_source_id', $sourceId)->whereDate('published_at', $publishedAt)->orderByDesc('id')->latest()->first();
+
+    }
+
+
+    /**
+     * @param array $data
+     * @return void
+     */
     public function createMany(array $data)
     {
-        $this->model->createMany($data);
+        $this->model->create($data);
     }
 
 }

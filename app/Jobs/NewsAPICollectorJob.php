@@ -2,6 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Models\News;
+use App\Models\Source;
+use App\Repositories\News\EloquentNewsRepository;
 use App\Repositories\News\NewsRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,25 +12,35 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ *
+ */
 class NewsAPICollectorJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
     /**
-     * @var \App\Models\News
+     * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
      */
-    protected $news;
+    protected NewsRepository $newsRepo;
+    /**
+     * @var int
+     */
+    protected int $page;
+    /**
+     * @var int
+     */
+    protected int $limit;
 
     /**
      * Create a new job instance.
      *
-     * @param \App\Repositories\News\NewsRepository $news
      */
-    public function __construct(NewsRepository $news)
+    public function __construct(int $limit = 100)
     {
-        $this->onQueue(QueueType::high); // must be long priority
-        $this->news = $news;
+        $this->onQueue(QueueType::high);
+        $this->newsRepo = app(NewsRepository::class);
+        $this->limit = $limit;
     }
 
     /**
@@ -35,25 +48,48 @@ class NewsAPICollectorJob implements ShouldQueue
      */
     public function handle(): void
     {
-
-        $published_at = $this->news->published_at ?? today();
-
-        dd($published_at);
-
-
         $news = app('NewsAPISource');
 
+        $yesterday = today()->subDay(1)->toDate()->format('Y-m-d');
+        $total_records_news_api = $this->newsService->getCountNewsBySourceIdPublished(1, $yesterday);
+
+        dump($total_records_news_api);
+
+        $page = $total_records_news_api >= 1 ? round(($total_records_news_api / 100) + 1, 1) : 1;
+
         $queryParams = [
-            'from' => $published_at,
-            'sortBy' => 'popularity',
+            'domains' => 'techcrunch.com,thenextweb.com,bbc.co.uk,engadget.com,androidcentral.com,wired.com,biztoc.com',
+            'page' => $page,
+            'from' => $yesterday,
+            'sortBy' => 'publishedAt',
             // more parameters...
         ];
 
-        $data1 = $news->setUrl('everything')->setParams($queryParams)->getData();
+        $resApi = $news->setUrl('everything')->setParams($queryParams)->getData();
 
-        foreach ($data1['articles'] as $data) {
+        $resApi['articles'] = array_reverse($resApi['articles']);
 
-            $data_value[] = [
+        foreach ($resApi['articles'] as $data) {
+
+            $source_id = 0;
+            if (!empty($data['source']['id'])) {
+
+                $source = Source::query()->where('name', $data['source']['id'])->first();
+
+                if (empty($source)) {
+                    $source = Source::query()->create([
+                        'name' => $data['source']['id'],
+                        'data_source_id' => 1,
+                    ]);
+                }
+
+                $source_id = $source->id;
+            }
+
+            $data_value = [
+                'slug' => 'x',
+                'data_source_id' => 1,
+                'source_id' => (int)$source_id,
                 'author' => $data['author'],
                 'title' => $data['title'],
                 'description' => $data['description'],
@@ -61,11 +97,17 @@ class NewsAPICollectorJob implements ShouldQueue
                 'image' => $data['urlToImage'],
                 'published_at' => $data['publishedAt'],
             ];
+
+            try {
+                $this->newsRepo->createMany($data_value);
+
+            } catch (\PDOException $e) {
+
+                dump("error", $data['title']);
+
+                continue;
+            }
         }
-
-        $this->news->createMany($data_value);
-
-        dd($data1);
 
     }
 }
