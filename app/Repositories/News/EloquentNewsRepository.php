@@ -54,7 +54,6 @@ class EloquentNewsRepository implements NewsRepository
 
     }
 
-
     /**
      * @param array $data
      * @return void

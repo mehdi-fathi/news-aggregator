@@ -4,11 +4,12 @@ namespace App\Providers;
 
 use App\Logic\Content\NewsSources\GuardianAPISource;
 use App\Logic\Content\NewsSources\NewsAPISource;
-use App\Logic\Content\NewsSources\NewsSource;
 use App\Logic\Utility\EndPointFetcher;
 use App\Logic\Utility\NewsFetcherUtility;
 use App\Repositories\News\EloquentNewsRepository;
 use App\Repositories\News\NewsRepository;
+use App\Repositories\Source\EloquentSourcesRepository;
+use App\Repositories\Source\SourceRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,8 +25,18 @@ class AppServiceProvider extends ServiceProvider
 
         );
 
+        $this->app->bind(
+            SourceRepository::class,
+            EloquentSourcesRepository::class
+
+        );
+
         $this->app->bind('NewsService', function () {
             return new \App\Logic\Service\NewsService(app('App\Repositories\News\NewsRepository'));
+        });
+
+        $this->app->bind('SourceService', function () {
+            return new \App\Logic\Service\SourceService(app('App\Repositories\Source\SourceRepository'));
         });
 
         $this->app->bind(

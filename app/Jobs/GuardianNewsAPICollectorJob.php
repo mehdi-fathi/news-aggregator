@@ -23,7 +23,10 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
      */
     protected NewsRepository $newsRepo;
 
-    protected NewsService $NewsService;
+    /**
+     * @var \App\Logic\Service\NewsService|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
+     */
+    protected NewsService $newsService;
 
     /**
      * @var int
@@ -36,7 +39,7 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
     public function __construct(int $limit = 50)
     {
         $this->newsRepo = app(NewsRepository::class);
-        $this->NewsService = app('NewsService');
+        $this->newsService = app('NewsService');
 
         $this->limit = $limit;
     }
@@ -50,7 +53,7 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
 
         $today = today()->format('Y-m-d');
 
-        $last = $this->NewsService->getLatestNewsBySourceIdPublished(2, $today);
+        $last = $this->newsService->getLatestNewsBySourceIdPublished(2, $today);
 
         $today = today()->format('c');
 
@@ -84,7 +87,7 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
             ];
 
             try {
-                $this->newsRepo->createMany($data_value);
+                $this->newsService->createNews($data_value);
 
             } catch (\PDOException $e) {
 

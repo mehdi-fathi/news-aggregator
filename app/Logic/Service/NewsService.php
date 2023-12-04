@@ -61,4 +61,13 @@ class NewsService extends AppService
         return $this->newsRepo->getLatestNewsBySourceIdPublished($sourceId, $publishedAt);
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function createNews(array $data)
+    {
+        return $this->model->create($data);
+    }
+
 }

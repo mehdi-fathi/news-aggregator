@@ -2,10 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\News;
-use App\Models\Source;
-use App\Repositories\News\EloquentNewsRepository;
-use App\Repositories\News\NewsRepository;
+use App\Logic\Service\NewsService;
+use App\Logic\Service\SourceService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -19,10 +17,15 @@ class NewsAPICollectorJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+
     /**
-     * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
+     * @var \App\Logic\Service\NewsService|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
      */
-    protected NewsRepository $newsRepo;
+    protected NewsService $newsService;
+    /**
+     * @var \App\Logic\Service\SourceService|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
+     */
+    protected SourceService $sourceService;
     /**
      * @var int
      */
@@ -39,7 +42,9 @@ class NewsAPICollectorJob implements ShouldQueue
     public function __construct(int $limit = 100)
     {
         $this->onQueue(QueueType::high);
-        $this->newsRepo = app(NewsRepository::class);
+        $this->newsService = app('NewsService');
+        $this->sourceService = app('SourceService');
+
         $this->limit = $limit;
     }
 
@@ -73,16 +78,7 @@ class NewsAPICollectorJob implements ShouldQueue
 
             $source_id = 0;
             if (!empty($data['source']['id'])) {
-
-                $source = Source::query()->where('name', $data['source']['id'])->first();
-
-                if (empty($source)) {
-                    $source = Source::query()->create([
-                        'name' => $data['source']['id'],
-                        'data_source_id' => 1,
-                    ]);
-                }
-
+                $source = $this->sourceService->findByNameOrCreate($data['source']['id'], 1);
                 $source_id = $source->id;
             }
 
@@ -99,7 +95,7 @@ class NewsAPICollectorJob implements ShouldQueue
             ];
 
             try {
-                $this->newsRepo->createMany($data_value);
+                $this->newsService->createNews($data_value);
 
             } catch (\PDOException $e) {
 
