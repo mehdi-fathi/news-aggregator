@@ -5,13 +5,15 @@
 News-Aggregator is a Laravel-based application designed to fetch news from various sources and filter them based on user
 preferences. Utilizing a RESTful API, it allows users to receive news updates tailored to their interests.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+I assumed this project would be a large scale project, so I try to implement robust and engineering structure.
 
 ## Features
 
-Fetch news from multiple sources.
-RESTful API for retrieving news.
-Filter news based on user preferences.
+-Fetch news from multiple sources.
+
+-RESTful API for retrieving news and preferences user.
+
+-Filter news based on user preferences.
 
 ## Install
 
