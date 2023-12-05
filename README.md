@@ -35,3 +35,7 @@ for run schedule:
 for run queues:
 
      $ php artisan queue:listen --queue=high,default
+
+for run command to dispatch queues:
+
+     $ php artisan app:news-command
