@@ -13,11 +13,11 @@ Laravel : 10.34.2
 
 ## Features
 
--Fetch news from multiple sources.
+- Fetch news from multiple sources.
 
--RESTful API for retrieving news and preferences user.
+- RESTful API for retrieving news and preferences user.
 
--Filter news based on user preferences.
+- Filter news based on user preferences.
 
 - Swagger documentation `http://127.0.0.1:8000/api/documentation`
 
