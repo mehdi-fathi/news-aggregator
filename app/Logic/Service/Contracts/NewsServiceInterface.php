@@ -12,18 +12,21 @@ interface NewsServiceInterface
      * @param NewsRepository $news
      */
     public function __construct(NewsRepository $news);
+
     /**
      * @param $data
      * @param int $limit
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getFilteredNews($data, int $limit = 10): LengthAwarePaginator;
+
     /**
      * @param $text
      * @param int $limit
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function searchNews($text, int $limit = 10): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
     /**
      * @param int $sourceId
      * @param string $publishedAt
@@ -37,6 +40,7 @@ interface NewsServiceInterface
      * @return int
      */
     public function getLatestNewsBySourceIdPublished(int $sourceId, string $publishedAt);
+
     /**
      * @param array $data
      * @return mixed
