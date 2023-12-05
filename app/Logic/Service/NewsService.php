@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Logic\Service;
 
 use App\Repositories\News\NewsRepository;
@@ -12,7 +11,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 final class NewsService extends AppService
 {
-
     /**
      * NewsService constructor.
      * @param NewsRepository $news

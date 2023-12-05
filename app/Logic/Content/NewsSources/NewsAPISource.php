@@ -4,11 +4,11 @@ namespace App\Logic\Content\NewsSources;
 
 use App\Logic\Utility\EndPointFetcher;
 use App\Logic\Utility\NewsFetcherUtility;
+
 use function PHPUnit\Framework\throwException;
 
 class NewsAPISource implements NewsSource
 {
-
     public EndPointFetcher $newsFetcherUtility;
 
     public $params;

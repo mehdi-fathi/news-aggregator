@@ -81,7 +81,7 @@ class EloquentNewsRepository implements NewsRepository
      */
     public function create(array $data)
     {
-        $this->model->create($data);
+        return $this->model->create($data);
     }
 
     /**

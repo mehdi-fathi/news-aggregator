@@ -9,10 +9,8 @@ use App\Http\Resources\NewsResource;
 use App\Http\Resources\UserPreferenceResource;
 use Illuminate\Http\Request;
 
-
 class UserPreferenceController extends Controller
 {
-
     public function list(Request $request)
     {
         $data = $this->UserPreferenceService->paginate();

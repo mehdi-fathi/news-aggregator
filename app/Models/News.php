@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'slug',
         'data_source_id',
@@ -19,8 +20,6 @@ class News extends Model
         'image',
         'published_at',
     ];
-
-    use HasFactory;
 
     /**
      *

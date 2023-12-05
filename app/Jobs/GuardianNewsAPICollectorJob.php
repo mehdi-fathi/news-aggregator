@@ -16,7 +16,10 @@ use Illuminate\Queue\SerializesModels;
 
 class GuardianNewsAPICollectorJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed

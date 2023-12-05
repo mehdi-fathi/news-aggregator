@@ -6,8 +6,6 @@ use App\Logic\Content\NewsSources\NewsAPISource;
 
 class NewsCollector
 {
-
-
     public function collectData()
     {
         $news = app('NewsAPISource');

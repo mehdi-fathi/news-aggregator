@@ -40,12 +40,12 @@ class NewsController extends Controller
 
         dump($total_records_news_api);
 
-        $page = $total_records_news_api >= 1 ? round(($total_records_news_api / 100) + 1,1) : 1;
-        dd(4545,$page);
+        $page = $total_records_news_api >= 1 ? round(($total_records_news_api / 100) + 1, 1) : 1;
+        dd(4545, $page);
 
         NewsAPICollectorJob::dispatch($page);
 
-        dd(4545,$page);
+        dd(4545, $page);
 
         $news = app('NewsAPISource');
 

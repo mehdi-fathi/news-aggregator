@@ -1,10 +1,6 @@
 <?php
 
-
 namespace App\Logic\Service;
-
-
-use Illuminate\Support\Facades\Redis;
 
 /**
  * @property  \App\Logic\Service\NewsService NewsService
@@ -12,7 +8,6 @@ use Illuminate\Support\Facades\Redis;
  */
 class AppService
 {
-
     /**
      * @param $property
      * @return mixed|void

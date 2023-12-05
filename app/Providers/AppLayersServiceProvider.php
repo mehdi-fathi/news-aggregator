@@ -23,19 +23,16 @@ class AppLayersServiceProvider extends ServiceProvider
         $this->app->bind(
             NewsRepository::class,
             EloquentNewsRepository::class
-
         );
 
         $this->app->bind(
             SourceRepository::class,
             EloquentSourcesRepository::class
-
         );
 
         $this->app->bind(
             UserPreferenceRepository::class,
             EloquentUserPreferenceRepository::class
-
         );
 
         $this->app->bind('NewsService', function () {
@@ -56,19 +53,19 @@ class AppLayersServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'NewsAPISource'
-            , function () {
-            $class = new NewsFetcherUtility('https://newsapi.org/v2/');
-            return new NewsAPISource($class);
-        }
+            'NewsAPISource',
+            function () {
+                $class = new NewsFetcherUtility('https://newsapi.org/v2/');
+                return new NewsAPISource($class);
+            }
         );
 
         $this->app->bind(
-            'GuardianAPISource'
-            , function () {
-            $class = new NewsFetcherUtility('https://content.guardianapis.com/');
-            return new GuardianAPISource($class);
-        }
+            'GuardianAPISource',
+            function () {
+                $class = new NewsFetcherUtility('https://content.guardianapis.com/');
+                return new GuardianAPISource($class);
+            }
         );
 
 

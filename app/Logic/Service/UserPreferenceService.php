@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Logic\Service;
 
 use App\Repositories\User\UserPreferenceRepository;

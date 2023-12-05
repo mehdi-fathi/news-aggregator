@@ -6,7 +6,6 @@ use GuzzleHttp\ClientInterface;
 
 class NewsFetcherUtility implements EndPointFetcher
 {
-
     public ClientInterface $client;
 
     public function __construct($base_url)

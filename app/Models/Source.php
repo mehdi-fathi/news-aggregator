@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Source extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'data_source_id'
     ];
-
-    use HasFactory;
 
     /**
      *

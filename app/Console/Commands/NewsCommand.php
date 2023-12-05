@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Console\Commands;
 
 use App\Jobs\GuardianNewsAPICollectorJob;
@@ -8,13 +7,11 @@ use App\Jobs\NewsAPICollectorJob;
 use App\Logic\Service\NewsService;
 use Illuminate\Console\Command;
 
-
 /**
  *
  */
 class NewsCommand extends Command
 {
-
     /**
      * @var \App\Logic\Service\NewsService
      */

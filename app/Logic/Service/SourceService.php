@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Logic\Service;
 
 use App\Repositories\Source\SourceRepository;
@@ -11,7 +10,6 @@ use App\Repositories\Source\SourceRepository;
  */
 final class SourceService extends AppService
 {
-
     /**
      * SourceService constructor.
      * @param SourceRepository $sourceRepo

@@ -13,9 +13,9 @@ use BenSampo\Enum\Enum;
  */
 final class QueueType extends Enum
 {
-    const urgent = "urgent";
-    const high = "high";
-    const default = "default";
-    const low = "low";
-    const long = "long";
+    public const urgent = "urgent";
+    public const high = "high";
+    public const default = "default";
+    public const low = "low";
+    public const long = "long";
 }
