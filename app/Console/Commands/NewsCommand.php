@@ -13,21 +13,6 @@ use Illuminate\Console\Command;
 class NewsCommand extends Command
 {
     /**
-     * @var \App\Logic\Service\NewsService
-     */
-    protected NewsService $newsService;
-
-
-    /**
-     * @param \App\Logic\Service\NewsService $newsService
-     */
-    public function __construct(NewsService $newsService)
-    {
-        parent::__construct();
-        $this->newsService = $newsService;
-    }
-
-    /**
      * The name and signature of the console command.
      *
      * @var string

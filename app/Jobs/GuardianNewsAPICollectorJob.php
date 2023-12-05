@@ -2,13 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Logic\Content\NewsSources\GuardianAPISource;
+use App\Logic\Content\NewsSources\NewsSource;
+use App\Logic\Service\Contracts\NewsServiceInterface;
 use App\Logic\Service\NewsService;
-use App\Models\News;
-use App\Models\Source;
-use App\Repositories\News\NewsRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,14 +21,16 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
     use SerializesModels;
 
     /**
-     * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
-     */
-    protected NewsRepository $newsRepo;
-
-    /**
      * @var \App\Logic\Service\NewsService|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
      */
     protected NewsService $newsService;
+
+
+    /**
+     * @var \App\Logic\Content\NewsSources\GuardianAPISource
+     */
+    protected NewsSource $newsSource;
+
 
     /**
      * @var int
@@ -41,8 +42,9 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
      */
     public function __construct(int $limit = 50)
     {
-        $this->newsRepo = app(NewsRepository::class);
-        $this->newsService = app('NewsService');
+        $this->newsService = app(NewsServiceInterface::class);
+
+        $this->newsSource = app(GuardianAPISource::class);
 
         $this->limit = $limit;
     }
@@ -52,11 +54,21 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $GuardianAPISource = app('GuardianAPISource');
 
+        $resApi = $this->callRequest();
+
+        $this->saveNews($resApi['response']['results']);
+
+    }
+
+    /**
+     * @return mixed
+     */
+    private function callRequest(): mixed
+    {
         $today = today()->format('Y-m-d');
 
-        $last = $this->newsService->getLatestNewsBySourceIdPublished(2, $today);
+        $last = $this->newsService->getLatestNewsBySourceIdPublished(GuardianAPISource::ID, $today);
 
         $today = today()->format('c');
 
@@ -65,20 +77,26 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
             $published_at = Carbon::create($last['published_at'])->format('c');
         }
 
-        $resApi = $GuardianAPISource->setUrl('search')->setParams([
+        $resApi = $this->newsSource->setUrl('search')->setParams([
             'show-fields' => 'all',
             'from-date' => $published_at,
             'order-by' => 'oldest',
             'page-size' => $this->limit,
         ])->getData();
 
-        dump("******startIndex : ", $resApi['response']['startIndex'], "total: " . $resApi['response']['total']);
+        return $resApi;
+    }
 
-        foreach ($resApi['response']['results'] as $data) {
+    /**
+     * @param $results
+     * @return void
+     */
+    private function saveNews($results): void
+    {
+        foreach ($results as $data) {
 
             $data_value = [
-                'slug' => 'x',
-                'data_source_id' => 2,
+                'data_source_id' => GuardianAPISource::ID,
                 'source_id' => 0,
                 'author' => $data['fields']['byline'] ?? "",
                 'category' => $data['sectionId'] ?? null,
@@ -99,7 +117,5 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
                 continue;
             }
         }
-
-
     }
 }

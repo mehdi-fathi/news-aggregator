@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Logic\Service\NewsService;
-use App\Logic\Service\SourceService;
+use App\Logic\Content\NewsSources\NewsAPISource;
+use App\Logic\Content\NewsSources\NewsSource;
+use App\Logic\Service\Contracts\NewsServiceInterface;
+use App\Logic\Service\Contracts\SourceServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -24,11 +26,17 @@ class NewsAPICollectorJob implements ShouldQueue
     /**
      * @var \App\Logic\Service\NewsService|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
      */
-    protected NewsService $newsService;
+    protected NewsServiceInterface $newsService;
     /**
      * @var \App\Logic\Service\SourceService|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
      */
-    protected SourceService $sourceService;
+    protected SourceServiceInterface $sourceService;
+
+    /**
+     * @var \App\Logic\Content\NewsSources\NewsAPISource
+     */
+    protected NewsSource $newsSource;
+
     /**
      * @var int
      */
@@ -45,8 +53,9 @@ class NewsAPICollectorJob implements ShouldQueue
     public function __construct(int $limit = 100)
     {
         $this->onQueue(QueueType::high);
-        $this->newsService = app('NewsService');
-        $this->sourceService = app('SourceService');
+        $this->newsService = app(NewsServiceInterface::class);
+        $this->sourceService = app(SourceServiceInterface::class);
+        $this->newsSource = app(NewsAPISource::class);
 
         $this->limit = $limit;
     }
@@ -56,38 +65,53 @@ class NewsAPICollectorJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $news = app('NewsAPISource');
+        $resApi = $this->callRequest();
 
+        $this->saveNews($resApi['articles']);
+
+    }
+
+    /**
+     * @return mixed
+     */
+    private function callRequest(): mixed
+    {
         $yesterday = today()->subDay(1)->toDate()->format('Y-m-d');
-        $total_records_news_api = $this->newsService->getCountNewsBySourceIdPublished(1, $yesterday);
+        $total_records_news_api = $this->newsService->getCountNewsBySourceIdPublished(NewsAPISource::ID, $yesterday);
 
-        dump($total_records_news_api);
-
-        $page = $total_records_news_api >= 1 ? round(($total_records_news_api / 100) + 1, 1) : 1;
+        $page = $total_records_news_api >= 1 ? round(($total_records_news_api / $this->limit) + 1, 1) : 1;
 
         $queryParams = [
-            'domains' => 'techcrunch.com,thenextweb.com,bbc.co.uk,engadget.com,androidcentral.com,wired.com,biztoc.com',
+            'domains' => $this->newsSource->getSources(),
             'page' => $page,
             'from' => $yesterday,
             'sortBy' => 'publishedAt',
             // more parameters...
         ];
 
-        $resApi = $news->setUrl('everything')->setParams($queryParams)->getData();
+        $resApi = $this->newsSource->setUrl('everything')->setParams($queryParams)->getData();
 
         $resApi['articles'] = array_reverse($resApi['articles']);
 
-        foreach ($resApi['articles'] as $data) {
+        return $resApi;
+    }
+
+    /**
+     * @param $articles
+     * @return void
+     */
+    private function saveNews($articles): void
+    {
+        foreach ($articles as $data) {
 
             $source_id = 0;
             if (!empty($data['source']['id'])) {
-                $source = $this->sourceService->findByNameOrCreate($data['source']['id'], 1);
+                $source = $this->sourceService->findByNameOrCreate($data['source']['id'], NewsAPISource::ID);
                 $source_id = $source->id;
             }
 
             $data_value = [
-                'slug' => 'x',
-                'data_source_id' => 1,
+                'data_source_id' => NewsAPISource::ID,
                 'source_id' => (int)$source_id,
                 'author' => $data['author'],
                 'title' => $data['title'],
@@ -102,11 +126,10 @@ class NewsAPICollectorJob implements ShouldQueue
 
             } catch (\PDOException $e) {
 
-                dump("error", $data['title']);
+                dump("error: ", $data['title'], $e);
 
                 continue;
             }
         }
-
     }
 }

@@ -7,16 +7,44 @@ use App\Logic\Utility\NewsFetcherUtility;
 
 use function PHPUnit\Framework\throwException;
 
+/**
+ *
+ */
 class GuardianAPISource implements NewsSource
 {
+    /**
+     *
+     */
+    public const NAME = "guardian-api";
+
+    /**
+     *
+     */
+    public const ID = 2;
+
+    /**
+     * @var \App\Logic\Utility\EndPointFetcher
+     */
     public EndPointFetcher $newsFetcherUtility;
 
+    /**
+     * @var
+     */
     public $params;
 
+    /**
+     * @var
+     */
     public $apiKey;
 
+    /**
+     * @var
+     */
     public $url;
 
+    /**
+     * @param \App\Logic\Utility\EndPointFetcher $newsFetcherUtility
+     */
     public function __construct(EndPointFetcher $newsFetcherUtility)
     {
         $this->newsFetcherUtility = $newsFetcherUtility;
@@ -34,12 +62,15 @@ class GuardianAPISource implements NewsSource
     /**
      * @param mixed $params
      */
-    public function setParams($params)
+    public function setParams(array $params = [])
     {
         $this->params = $params;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUrl()
     {
         if (empty($this->apiKey)) {
@@ -68,23 +99,23 @@ class GuardianAPISource implements NewsSource
         return $this->apiKey;
     }
 
-    public function setData()
-    {
-    }
-
-    public function setUrl($url)
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl(string $url): static
     {
         $this->url = $url;
         return $this;
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getData()
     {
         $this->params['api-key'] = $this->getApiKey();
-
-        // https://content.guardianapis.com/search?api-key=test&show-fields=all&show-fields=all&from-date=2023-12-02T02:00:41Z&order-by=oldest
-
         return $this->newsFetcherUtility->get($this->getUrl(), $this->getParams());
     }
 }

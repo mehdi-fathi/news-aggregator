@@ -2,18 +2,37 @@
 
 namespace App\Logic\Content\NewsSources;
 
+/**
+ *
+ */
 interface NewsSource
 {
+    /**
+     * @param string $apiKey
+     * @return mixed
+     */
     public function setApiKey(string $apiKey);
 
-    public function setParams($params);
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function setParams(array $params = []);
 
-    public function setData();
+    /**
+     * @param string $url
+     * @return mixed
+     */
+    public function setUrl(string $url);
 
-    public function setUrl($url);
-
+    /**
+     * @return mixed
+     */
     public function getData();
 
+    /**
+     * @return mixed
+     */
     public function getUrl();
 
 }

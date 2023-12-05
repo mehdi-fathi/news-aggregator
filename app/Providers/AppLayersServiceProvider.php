@@ -15,6 +15,7 @@ use App\Logic\Utility\NewsFetcherUtility;
 use App\Repositories\News\EloquentNewsRepository;
 use App\Repositories\News\NewsRepository;
 use App\Repositories\Source\EloquentSourcesRepository;
+use App\Repositories\Source\SourceRepository;
 use App\Repositories\User\EloquentUserPreferenceRepository;
 use App\Repositories\User\UserPreferenceRepository;
 use Illuminate\Support\ServiceProvider;
@@ -99,7 +100,7 @@ class AppLayersServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(
-            'NewsAPISource',
+            NewsAPISource::class,
             function () {
                 $class = new NewsFetcherUtility('https://newsapi.org/v2/');
                 return new NewsAPISource($class);
@@ -107,7 +108,7 @@ class AppLayersServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'GuardianAPISource',
+            GuardianAPISource::class,
             function () {
                 $class = new NewsFetcherUtility('https://content.guardianapis.com/');
                 return new GuardianAPISource($class);

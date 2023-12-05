@@ -7,7 +7,7 @@ use App\Models\Source;
 /**
  * Class EloquentSourcesRepository
  */
-class EloquentSourcesRepository implements UserPreferenceRepository
+class EloquentSourcesRepository implements SourceRepository
 {
     /**
      * @var Source
@@ -32,6 +32,11 @@ class EloquentSourcesRepository implements UserPreferenceRepository
         return $this->model->create($data);
     }
 
+    /**
+     * @param string $sourceName
+     * @param int $dataSourceId
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
     public function findByNameOrCreate(string $sourceName, int $dataSourceId)
     {
         $source = $this->model->query()->where('name', $sourceName)->first();
