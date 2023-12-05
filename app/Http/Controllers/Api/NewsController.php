@@ -38,7 +38,7 @@ class NewsController extends Controller
      *       description="published_at to",
      *       in="query",
      *       name="published_at[to]",
-     *       example="2023-12-04",
+     *       example="2023-12-05",
      *    ),
      *    @OA\Parameter  (
      *       description="category",
