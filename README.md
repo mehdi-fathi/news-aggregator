@@ -15,9 +15,19 @@ I assumed this project would be a large scale project, so I try to implement rob
 
 -Filter news based on user preferences.
 
+- Swagger documentation `http://127.0.0.1:8000/api/documentation`
+
 ## Install
 
         $ composer install
         $ php artisan migrate
         $ php artisan db:seed --class=dataSourceSeeder
         $ php artisan serve
+
+for run schedule:
+
+     $ php artisan schedule:work
+
+for run queues:
+
+     $ php artisan queue:listen --queue=high,default
