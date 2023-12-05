@@ -59,16 +59,22 @@ interface NewsRepository
     public function getFilteredByPublishedAt($from_published_at, $to_published_at): void;
 
     /**
-     * @param $category
+     * @param string $category
      * @return void
      */
-    public function getFilteredByCategory($category): void;
+    public function getFilteredByCategory(string $category): void;
 
     /**
-     * @param $category
+     * @param string $author
      * @return void
      */
-    public function searchByText($category): void;
+    public function getFilteredByAuthor(string $author): void;
+
+    /**
+     * @param string $text
+     * @return void
+     */
+    public function searchByText(string $text): void;
 
     /**
      * @param array $relations

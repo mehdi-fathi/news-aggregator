@@ -31,12 +31,30 @@ final class NewsService extends AppService implements NewsServiceInterface
         if (!empty($data['preference'])) {
             $UserPreferenceData = $this->UserPreferenceService->findOrFailByName($data['preference']);
             $data = $UserPreferenceData['preferences'];
-        }
 
-        $this->filterNewsByData($data);
+            $this->filterNewsByPreferenceData($data);
+
+        } else {
+            $this->filterNewsByData($data);
+        }
 
         $out = $this->newsRepo->getFilteredDataPaginate(['Source.DataSource'], $limit);
         return $out;
+    }
+
+    /**
+     * @param mixed $data
+     * @return void
+     */
+    private function filterNewsByPreferenceData(mixed $data): void
+    {
+        collect($data)->filter()->each(function ($item, $key) {
+            match ($key) {
+                'sources' => $this->newsRepo->getFilteredBySource($item),
+                'categories' => $this->newsRepo->getFilteredByCategory($item),
+                'authors' => $this->newsRepo->getFilteredByAuthor($item),
+            };
+        });
     }
 
     /**

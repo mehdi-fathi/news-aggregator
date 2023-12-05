@@ -29,7 +29,7 @@
                         "name": "published_at[to]",
                         "in": "query",
                         "description": "published_at to",
-                        "example": "2023-12-04"
+                        "example": "2023-12-05"
                     },
                     {
                         "name": "category",
@@ -89,16 +89,28 @@
                         "multipart/form-data": {
                             "schema": {
                                 "properties": {
-                                    "preferences[source]": {
+                                    "preferences[authors][0]": {
+                                        "description": "Author 1",
                                         "type": "string"
                                     },
-                                    "preferences[published_at][from]": {
+                                    "preferences[authors][1]": {
+                                        "description": "Author 2",
                                         "type": "string"
                                     },
-                                    "preferences[published_at][to]": {
+                                    "preferences[categories][0]": {
+                                        "description": "sport",
                                         "type": "string"
                                     },
-                                    "preferences[category]": {
+                                    "preferences[categories][1]": {
+                                        "description": "art",
+                                        "type": "string"
+                                    },
+                                    "preferences[sources][0]": {
+                                        "description": "bbc-news",
+                                        "type": "string"
+                                    },
+                                    "preferences[sources][1]": {
+                                        "description": "bbc-news",
                                         "type": "string"
                                     },
                                     "name": {
@@ -139,13 +151,28 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "preferences[source]": {
+                                    "preferences[authors][0]": {
+                                        "description": "Author 1",
                                         "type": "string"
                                     },
-                                    "preferences[published_at][from]": {
+                                    "preferences[authors][1]": {
+                                        "description": "Author 2",
                                         "type": "string"
                                     },
-                                    "preferences[category]": {
+                                    "preferences[categories][0]": {
+                                        "description": "sport",
+                                        "type": "string"
+                                    },
+                                    "preferences[categories][1]": {
+                                        "description": "art",
+                                        "type": "string"
+                                    },
+                                    "preferences[sources][0]": {
+                                        "description": "bbc-news",
+                                        "type": "string"
+                                    },
+                                    "preferences[sources][1]": {
+                                        "description": "bbc-news",
                                         "type": "string"
                                     },
                                     "name": {

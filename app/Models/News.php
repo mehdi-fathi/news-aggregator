@@ -44,7 +44,7 @@ class News extends Model
     public function scopeGetSource($query, $value)
     {
         return $query->whereHas('Source', function ($q) use ($value) {
-            $q->where('name', $value);
+            $q->whereIn('name', $value);
         });
     }
 
@@ -62,15 +62,24 @@ class News extends Model
 
     }
 
+    /**
+     * @param $query
+     * @param $category
+     * @return mixed
+     */
+    public function scopeGetCategory($query, $category)
+    {
+        return $query->whereIn('category', $category);
+    }
 
     /**
      * @param $query
-     * @param string|null $category
+     * @param $author
      * @return mixed
      */
-    public function scopeGetCategory($query, ?string $category = null)
+    public function scopeGetAuthor($query, $author)
     {
-        return $query->where('category', $category);
+        return $query->whereIn('author', $author);
     }
 
     /**

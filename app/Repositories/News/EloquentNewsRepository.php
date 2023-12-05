@@ -104,21 +104,30 @@ class EloquentNewsRepository implements NewsRepository
     }
 
     /**
-     * @param $category
+     * @param string $category
      * @return void
      */
-    public function getFilteredByCategory($category): void
+    public function getFilteredByCategory(string $category): void
     {
         $this->setBuilder($this->getBuilder()->getCategory($category));
     }
 
     /**
-     * @param $category
+     * @param $author
      * @return void
      */
-    public function searchByText($category): void
+    public function getFilteredByAuthor($author): void
     {
-        $this->setBuilder($this->getBuilder()->search($category));
+        $this->setBuilder($this->getBuilder()->getAuthor($author));
+    }
+
+    /**
+     * @param string $text
+     * @return void
+     */
+    public function searchByText(string $text): void
+    {
+        $this->setBuilder($this->getBuilder()->search($text));
     }
 
     /**

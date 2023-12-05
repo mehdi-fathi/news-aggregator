@@ -32,10 +32,36 @@ class UserPreferenceController extends Controller
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 type="object",
-     *                 @OA\Property(property="preferences[source]", type="string"),
-     *                 @OA\Property(property="preferences[published_at][from]", type="string"),
-     *                 @OA\Property(property="preferences[published_at][to]", type="string"),
-     *                 @OA\Property(property="preferences[category]", type="string"),
+     *                 @OA\Property(
+     *                     property="preferences[authors][0]",
+     *                     description="Author 1",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[authors][1]",
+     *                     description="Author 2",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[categories][0]",
+     *                     description="sport",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[categories][1]",
+     *                     description="art",
+     *                     type="string"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="preferences[sources][0]",
+     *                     description="bbc-news",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[sources][1]",
+     *                     description="bbc-news",
+     *                     type="string"
+     *                 ),
      *                 @OA\Property(property="name", type="string")
      *             )
      *         )
@@ -67,10 +93,37 @@ class UserPreferenceController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
-     *                 type="object",
-     *                 @OA\Property(property="preferences[source]", type="string"),
-     *                 @OA\Property(property="preferences[published_at][from]", type="string"),
-     *                 @OA\Property(property="preferences[category]", type="string"),
+     *             type="object",
+     *                 @OA\Property(
+     *                     property="preferences[authors][0]",
+     *                     description="Author 1",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[authors][1]",
+     *                     description="Author 2",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[categories][0]",
+     *                     description="sport",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[categories][1]",
+     *                     description="art",
+     *                     type="string"
+     *                 ),
+     *                  @OA\Property(
+     *                     property="preferences[sources][0]",
+     *                     description="bbc-news",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="preferences[sources][1]",
+     *                     description="bbc-news",
+     *                     type="string"
+     *                 ),
      *                 @OA\Property(property="name", type="string")
      *             )
      *         )
