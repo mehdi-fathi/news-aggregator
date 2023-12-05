@@ -48,7 +48,7 @@ final class NewsService extends AppService implements NewsServiceInterface
         collect($data)->filter()->each(function ($item, $key) {
             match ($key) {
                 'source' => $this->newsRepo->getFilteredBySource($item),
-                'published_at' => $this->newsRepo->getFilteredByPublishedAt($item['from'], $item['to'] ?? null),
+                'published_at' => ($item['from'] ? $this->newsRepo->getFilteredByPublishedAt($item['from'], $item['to'] ?? null) : null),
                 'category' => $this->newsRepo->getFilteredByCategory($item),
             };
         });

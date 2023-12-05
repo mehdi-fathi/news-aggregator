@@ -12,13 +12,6 @@ class UserPreference extends Model
 {
     use HasFactory;
 
-    /**
-     * @var string[]
-     */
-    protected $casts = [
-        'preferences' => 'array',
-    ];
-
 
     /**
      * @var string[]
@@ -27,4 +20,12 @@ class UserPreference extends Model
         'name',
         'preferences'
     ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'preferences' => 'array',
+    ];
+
 }

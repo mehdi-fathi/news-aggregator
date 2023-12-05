@@ -32,7 +32,7 @@ final class UserPreferenceService extends AppService implements UserPreferenceSe
      */
     public function create(string $name, array $data)
     {
-        $data = ['name' => $name, 'preferences' => json_encode($data)];
+        $data = ['name' => $name, 'preferences' => $data];
         return $this->userPreferenceRepo->create($data);
     }
 

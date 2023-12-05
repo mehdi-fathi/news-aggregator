@@ -1,0 +1,218 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "News-aggregator API Documentation",
+        "description": "Swagger OpenAPI Description",
+        "contact": {
+            "email": "mehdifathi.developer@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/news/list": {
+            "get": {
+                "operationId": "695f0c701b824a1a25a152040faac400",
+                "parameters": [
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "description": "source",
+                        "example": "bbc-news"
+                    },
+                    {
+                        "name": "published_at[from]",
+                        "in": "query",
+                        "description": "published_at from",
+                        "example": "2023-12-03"
+                    },
+                    {
+                        "name": "published_at[to]",
+                        "in": "query",
+                        "description": "published_at to",
+                        "example": "2023-12-04"
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "category",
+                        "example": "sport"
+                    },
+                    {
+                        "name": "preference",
+                        "in": "query",
+                        "description": "preferences",
+                        "example": "my_favorite"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An example resource"
+                    }
+                }
+            }
+        },
+        "/api/v1/news/search": {
+            "get": {
+                "operationId": "3671e0baa075f8fd5bb146a7913c2ea2",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "query",
+                        "description": "text",
+                        "example": "movie"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An example resource"
+                    }
+                }
+            }
+        },
+        "/api/v1/user-preference/list": {
+            "get": {
+                "operationId": "edb8e665e3fd5d3ad884e02f0a738950",
+                "responses": {
+                    "200": {
+                        "description": "An example resource"
+                    }
+                }
+            }
+        },
+        "/api/v1/user-preference/store": {
+            "post": {
+                "summary": "Store user preferences",
+                "operationId": "9f727a7cd0ec4331298640d37b1e7c3f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "preferences[source]": {
+                                        "type": "string"
+                                    },
+                                    "preferences[published_at][from]": {
+                                        "type": "string"
+                                    },
+                                    "preferences[published_at][to]": {
+                                        "type": "string"
+                                    },
+                                    "preferences[category]": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user-preference/update": {
+            "put": {
+                "summary": "Update user preferences",
+                "operationId": "1ebd991e7e3c42b8b6534bfd0309256d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "preferences[source]": {
+                                        "type": "string"
+                                    },
+                                    "preferences[published_at][from]": {
+                                        "type": "string"
+                                    },
+                                    "preferences[category]": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user-preference/delete": {
+            "delete": {
+                "summary": "Delete user preferences",
+                "operationId": "308d133d746692b128d91000029e282a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
