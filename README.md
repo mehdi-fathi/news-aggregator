@@ -7,9 +7,9 @@ preferences. Utilizing a RESTful API, it allows users to receive news updates ta
 
 I assumed this project would be a large scale project, so I try to implement robust and engineering structure.
 
-database: postgres
-PHP : 8.1
-Laravel : 10.34.2
+- Database: postgres
+- PHP : 8.1
+- Laravel : 10.34.2
 
 ## Features
 
