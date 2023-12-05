@@ -23,11 +23,10 @@ class News extends Model
     use HasFactory;
 
     /**
-     * Creator / User of the resource.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function source()
+    public function Source()
     {
         return $this->belongsTo(Source::class);
     }
@@ -35,7 +34,7 @@ class News extends Model
     // Scope by a specific field
     public function scopeGetSource($query, $value)
     {
-        return $query->whereHas('source', function ($q) use ($value) {
+        return $query->whereHas('Source', function ($q) use ($value) {
             $q->where('name', $value);
         });
     }

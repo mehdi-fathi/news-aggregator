@@ -34,7 +34,9 @@ final class NewsService extends AppService
 
         $this->filterNewsByData($data);
 
-        return $this->newsRepo->getFilteredData();
+        $out = $this->newsRepo->getFilteredData(['Source.DataSource']);
+
+        return $out;
     }
 
     /**
@@ -61,7 +63,7 @@ final class NewsService extends AppService
     {
         $this->newsRepo->searchByText($text);
 
-        return $this->newsRepo->getFilteredData();
+        return $this->newsRepo->getFilteredData(['Source.DataSource']);
     }
 
     /**

@@ -13,4 +13,15 @@ class Source extends Model
     ];
 
     use HasFactory;
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function DataSource()
+    {
+        return $this->belongsTo(DataSource::class);
+    }
+
+
 }

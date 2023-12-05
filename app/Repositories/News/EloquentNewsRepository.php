@@ -126,9 +126,9 @@ class EloquentNewsRepository implements NewsRepository
         $this->setBuilder($this->getBuilder()->search($category));
     }
 
-    public function getFilteredData()
+    public function getFilteredData(array $relations)
     {
-        return $this->getBuilder()->get();
+        return $this->getBuilder()->with($relations)->get();
     }
 
 }
