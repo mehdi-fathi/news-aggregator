@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command(NewsCommand::class)->everyMinute()->runInBackground()->withoutOverlapping();
+        $schedule->command(NewsCommand::class)->everyTenMinutes()->runInBackground()->withoutOverlapping();
     }
 
     /**
