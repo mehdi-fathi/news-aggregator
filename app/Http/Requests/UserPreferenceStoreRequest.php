@@ -24,7 +24,11 @@ class UserPreferenceStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'preferences' => 'required|array',
+            'preferences.source' => 'required_without_all:preferences.published_at,preferences.category',
+            'preferences.published_at' => [
+                'from' => 'required_without_all:preferences.source,preferences.category',
+            ],
+            'preferences.category' => 'required_without_all:preferences.source,preferences.published_at',
             'name' => 'required|string|unique:user_preferences,name',
         ];
     }
