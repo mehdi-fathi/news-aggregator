@@ -2,6 +2,7 @@
 
 namespace App\Logic\Service;
 
+use App\Logic\Service\Contracts\NewsServiceInterface;
 use App\Repositories\News\NewsRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -9,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * Class NewsService
  * @package App\Service\Logic
  */
-final class NewsService extends AppService
+final class NewsService extends AppService implements NewsServiceInterface
 {
     /**
      * NewsService constructor.
@@ -52,7 +53,6 @@ final class NewsService extends AppService
             };
         });
     }
-
 
     /**
      * @param $text

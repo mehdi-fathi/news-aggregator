@@ -2,13 +2,14 @@
 
 namespace App\Logic\Service;
 
+use App\Logic\Service\Contracts\UserPreferenceServiceInterface;
 use App\Repositories\User\UserPreferenceRepository;
 
 /**
  * Class UserPreferenceService
  * @package App\Service\Logic
  */
-final class UserPreferenceService extends AppService
+final class UserPreferenceService extends AppService implements UserPreferenceServiceInterface
 {
     /**
      * @var \App\Repositories\User\UserPreferenceRepository
@@ -26,7 +27,7 @@ final class UserPreferenceService extends AppService
 
     /**
      * @param string $name
-     * @param string $data
+     * @param array $data
      * @return void
      */
     public function create(string $name, array $data)
@@ -38,7 +39,7 @@ final class UserPreferenceService extends AppService
     /**
      * @param string $name
      * @param array $data
-     * @return void
+     * @return void|null
      */
     public function update(string $name, array $data)
     {

@@ -2,13 +2,14 @@
 
 namespace App\Logic\Service;
 
+use App\Logic\Service\Contracts\SourceServiceInterface;
 use App\Repositories\Source\SourceRepository;
 
 /**
  * Class SourceService
  * @package App\Service\Logic
  */
-final class SourceService extends AppService
+final class SourceService extends AppService implements SourceServiceInterface
 {
     /**
      * SourceService constructor.
