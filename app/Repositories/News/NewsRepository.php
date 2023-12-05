@@ -46,10 +46,10 @@ interface NewsRepository
     public function create(array $data);
 
     /**
-     * @param $source
+     * @param string|array $sources
      * @return void
      */
-    public function getFilteredBySource($source);
+    public function getFilteredBySources(string|array $sources): void;
 
     /**
      * @param $from_published_at
@@ -59,16 +59,16 @@ interface NewsRepository
     public function getFilteredByPublishedAt($from_published_at, $to_published_at): void;
 
     /**
-     * @param string $category
+     * @param string|array $categories
      * @return void
      */
-    public function getFilteredByCategory(string $category): void;
+    public function getFilteredByCategories(string|array $categories): void;
 
     /**
-     * @param string $author
+     * @param string|array $authors
      * @return void
      */
-    public function getFilteredByAuthor(string $author): void;
+    public function getFilteredByAuthors(string|array $authors): void;
 
     /**
      * @param string $text

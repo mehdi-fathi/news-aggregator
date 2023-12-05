@@ -25,8 +25,8 @@ class UserPreferenceStoreRequest extends FormRequest
     {
         return [
             'preferences.sources' => 'required_without_all:preferences.categories,preferences.authors',
-            'preferences.categories' => 'required_without_all:preferences.source,preferences.authors',
-            'preferences.authors' => 'required_without_all:preferences.source,preferences.categories',
+            'preferences.categories' => 'required_without_all:preferences.sources,preferences.authors',
+            'preferences.authors' => 'required_without_all:preferences.sources,preferences.categories',
             'name' => 'required|string|unique:user_preferences,name',
         ];
     }

@@ -35,19 +35,6 @@ class News extends Model
     {
         return $this->belongsTo(Source::class);
     }
-
-    /**
-     * @param $query
-     * @param $value
-     * @return mixed
-     */
-    public function scopeGetSource($query, $value)
-    {
-        return $query->whereHas('Source', function ($q) use ($value) {
-            $q->whereIn('name', $value);
-        });
-    }
-
     /**
      * @param $query
      * @param string $fromDate
@@ -64,22 +51,34 @@ class News extends Model
 
     /**
      * @param $query
-     * @param $category
+     * @param $sources
      * @return mixed
      */
-    public function scopeGetCategory($query, $category)
+    public function scopeGetSources($query, $sources)
     {
-        return $query->whereIn('category', $category);
+        return $query->whereHas('Source', function ($q) use ($sources) {
+            $q->whereIn('name', $sources);
+        });
     }
 
     /**
      * @param $query
-     * @param $author
+     * @param $categories
      * @return mixed
      */
-    public function scopeGetAuthor($query, $author)
+    public function scopeGetCategories($query, $categories)
     {
-        return $query->whereIn('author', $author);
+        return $query->whereIn('category', $categories);
+    }
+
+    /**
+     * @param $query
+     * @param $authors
+     * @return mixed
+     */
+    public function scopeGetAuthors($query, $authors)
+    {
+        return $query->whereIn('author', $authors);
     }
 
     /**

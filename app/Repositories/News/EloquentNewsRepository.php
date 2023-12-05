@@ -63,7 +63,6 @@ class EloquentNewsRepository implements NewsRepository
         return News::query()->where('data_source_id', $sourceId)->whereDate('published_at', $publishedAt)->count();
     }
 
-
     /**
      * @param int $sourceId
      * @param string $publishedAt
@@ -85,15 +84,6 @@ class EloquentNewsRepository implements NewsRepository
     }
 
     /**
-     * @param $source
-     * @return void
-     */
-    public function getFilteredBySource($source)
-    {
-        $this->setBuilder($this->getBuilder()->getSource($source));
-    }
-
-    /**
      * @param $from_published_at
      * @param $to_published_at
      * @return void
@@ -104,21 +94,33 @@ class EloquentNewsRepository implements NewsRepository
     }
 
     /**
-     * @param string $category
+     * @param string|array $sources
      * @return void
      */
-    public function getFilteredByCategory(string $category): void
+    public function getFilteredBySources(string|array $sources): void
     {
-        $this->setBuilder($this->getBuilder()->getCategory($category));
+        $sources = $this->castStringToArray($sources);
+        $this->setBuilder($this->getBuilder()->getSources($sources));
     }
 
     /**
-     * @param $author
+     * @param string|array $categories
      * @return void
      */
-    public function getFilteredByAuthor($author): void
+    public function getFilteredByCategories(string|array $categories): void
     {
-        $this->setBuilder($this->getBuilder()->getAuthor($author));
+        $categories = $this->castStringToArray($categories);
+        $this->setBuilder($this->getBuilder()->getCategories($categories));
+    }
+
+    /**
+     * @param string|array $authors
+     * @return void
+     */
+    public function getFilteredByAuthors(string|array $authors): void
+    {
+        $authors = $this->castStringToArray($authors);
+        $this->setBuilder($this->getBuilder()->getAuthors($authors));
     }
 
     /**
@@ -138,6 +140,15 @@ class EloquentNewsRepository implements NewsRepository
     public function getFilteredDataPaginate(array $relations, int $limit = 10): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->getBuilder()->with($relations)->paginate($limit);
+    }
+
+    /**
+     * @param array|string $authors
+     * @return array|string[]
+     */
+    private function castStringToArray(array|string $authors): array
+    {
+        return !is_array($authors) ? array($authors) : $authors;
     }
 
 }
