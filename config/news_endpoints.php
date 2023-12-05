@@ -3,8 +3,7 @@
 
 return [
     'news-api' => [
-
-        'key' => 'cedc49391f90414382ff139b743013c8',
+        'key' => '77ce12864b7548c5be2f474a81790e0b',
         'base_url' => 'https://newsapi.org/v2/',
     ],
 

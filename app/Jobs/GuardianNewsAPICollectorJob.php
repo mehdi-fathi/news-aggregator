@@ -111,8 +111,6 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
 
             } catch (\PDOException $e) {
 
-                dump("error");
-
                 continue;
             }
         }

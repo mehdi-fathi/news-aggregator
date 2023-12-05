@@ -8,10 +8,9 @@ namespace App\Logic\Utility;
 interface EndPointFetcher
 {
     /**
-     * @param $base_ur
+     * @param string $base_ur
      */
-    public function __construct($base_ur);
-
+    public function __construct(string $base_ur);
 
     /**
      * @param string $uri

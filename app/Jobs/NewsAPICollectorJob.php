@@ -127,8 +127,6 @@ class NewsAPICollectorJob implements ShouldQueue
 
             } catch (\PDOException $e) {
 
-                dump("error: ", $data['title'], $e);
-
                 continue;
             }
         }
