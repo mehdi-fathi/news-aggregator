@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPreferenceStoreRequest;
 use App\Http\Requests\UserPreferenceUpdateRequest;
+use App\Http\Resources\NewsResource;
+use App\Http\Resources\UserPreferenceResource;
 use Illuminate\Http\Request;
 
 
@@ -13,10 +15,8 @@ class UserPreferenceController extends Controller
 
     public function list(Request $request)
     {
-
         $data = $this->UserPreferenceService->paginate();
-
-        return response()->json($data);
+        return UserPreferenceResource::collection($data);
     }
 
     // Store preferences

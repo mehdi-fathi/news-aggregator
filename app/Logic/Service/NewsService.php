@@ -4,6 +4,7 @@
 namespace App\Logic\Service;
 
 use App\Repositories\News\NewsRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class NewsService
@@ -23,9 +24,10 @@ final class NewsService extends AppService
 
     /**
      * @param $data
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param int $limit
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getFilteredNews($data): \Illuminate\Database\Eloquent\Collection
+    public function getFilteredNews($data, int $limit = 10): LengthAwarePaginator
     {
         if (!empty($data['preference'])) {
             $UserPreferenceData = $this->UserPreferenceService->findOrFailByName($data['preference']);
@@ -34,8 +36,7 @@ final class NewsService extends AppService
 
         $this->filterNewsByData($data);
 
-        $out = $this->newsRepo->getFilteredData(['Source.DataSource']);
-
+        $out = $this->newsRepo->getFilteredDataPaginate(['Source.DataSource'], $limit);
         return $out;
     }
 
@@ -57,13 +58,16 @@ final class NewsService extends AppService
 
     /**
      * @param $text
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @param int $limit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function searchNews($text)
+    public function searchNews($text, int $limit = 10): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $this->newsRepo->searchByText($text);
 
-        return $this->newsRepo->getFilteredData(['Source.DataSource']);
+        $out = $this->newsRepo->getFilteredDataPaginate(['Source.DataSource'], $limit);
+
+        return $out;
     }
 
     /**

@@ -25,6 +25,7 @@ class NewsController extends Controller
     {
         $items = $this->NewsService->getFilteredNews($request->query->all());
 
+        $items->appends($request->query->all());
         return NewsResource::collection($items);
 
     }
@@ -36,6 +37,8 @@ class NewsController extends Controller
     public function search(NewsSearchRequest $request)
     {
         $items = $this->NewsService->searchNews($request->query->get('text'));
+
+        $items->appends($request->query->all());
 
         return NewsResource::collection($items);
 

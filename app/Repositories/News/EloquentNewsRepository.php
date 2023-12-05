@@ -4,18 +4,20 @@ namespace App\Repositories\News;
 
 use App\Models\News;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 /**
- * Class EloquentUserRepository
+ * Class EloquentNewsRepository
  */
 class EloquentNewsRepository implements NewsRepository
 {
     /**
-     * @var User
+     * @var News
      */
     protected News $model;
 
+    /**
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
     protected Builder $builder;
 
     /**
@@ -25,12 +27,6 @@ class EloquentNewsRepository implements NewsRepository
     public function __construct(News $news)
     {
         $this->model = $news;
-    }
-
-    /**
-     */
-    public function getNews()
-    {
     }
 
     /**
@@ -71,7 +67,7 @@ class EloquentNewsRepository implements NewsRepository
     /**
      * @param int $sourceId
      * @param string $publishedAt
-     * @return int
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
     public function getLatestNewsBySourceIdPublished(int $sourceId, string $publishedAt)
     {
@@ -88,47 +84,51 @@ class EloquentNewsRepository implements NewsRepository
         $this->model->create($data);
     }
 
-    // public function getBySource($source)
-    // {
-    //     return $this->model->query()->getSource($source);
-    // }
-    //
-    // public function getByPublishedAt($published_at)
-    // {
-    //     return $this->model->query()->getPublishedAt($published_at);
-    //
-    // }
-    //
-    // public function getByCategory($category)
-    // {
-    //     return $this->model->query()->getCategory($category);
-    //
-    // }
-
-
+    /**
+     * @param $source
+     * @return void
+     */
     public function getFilteredBySource($source)
     {
         $this->setBuilder($this->getBuilder()->getSource($source));
     }
 
-    public function getFilteredByPublishedAt($from_published_at, $to_published_at)
+    /**
+     * @param $from_published_at
+     * @param $to_published_at
+     * @return void
+     */
+    public function getFilteredByPublishedAt($from_published_at, $to_published_at): void
     {
         $this->setBuilder($this->getBuilder()->getPublishedAt($from_published_at, $to_published_at));
     }
 
-    public function getFilteredByCategory($category)
+    /**
+     * @param $category
+     * @return void
+     */
+    public function getFilteredByCategory($category): void
     {
         $this->setBuilder($this->getBuilder()->getCategory($category));
     }
 
-    public function searchByText($category)
+    /**
+     * @param $category
+     * @return void
+     */
+    public function searchByText($category): void
     {
         $this->setBuilder($this->getBuilder()->search($category));
     }
 
-    public function getFilteredData(array $relations)
+    /**
+     * @param array $relations
+     * @param int $limit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getFilteredDataPaginate(array $relations, int $limit = 10): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        return $this->getBuilder()->with($relations)->get();
+        return $this->getBuilder()->with($relations)->paginate($limit);
     }
 
 }
