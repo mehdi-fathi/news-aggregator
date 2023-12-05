@@ -44,8 +44,6 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
     {
         $this->newsService = app(NewsServiceInterface::class);
 
-        $this->newsSource = app(GuardianAPISource::class);
-
         $this->limit = $limit;
     }
 
@@ -54,6 +52,7 @@ class GuardianNewsAPICollectorJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->newsSource = app(GuardianAPISource::class);
 
         $resApi = $this->callRequest();
 

@@ -102,16 +102,16 @@ class AppLayersServiceProvider extends ServiceProvider
         $this->app->bind(
             NewsAPISource::class,
             function () {
-                $class = new NewsFetcherUtility('https://newsapi.org/v2/');
-                return new NewsAPISource($class);
+                $fetcher = new NewsFetcherUtility(config('news_endpoints.news-api.base_url'));
+                return new NewsAPISource($fetcher, config('news_endpoints.news-api.key'));
             }
         );
 
         $this->app->bind(
             GuardianAPISource::class,
             function () {
-                $class = new NewsFetcherUtility('https://content.guardianapis.com/');
-                return new GuardianAPISource($class);
+                $fetcher = new NewsFetcherUtility(config('news_endpoints.guardian-api.base_url'));
+                return new GuardianAPISource($fetcher, config('news_endpoints.guardian-api.key'));
             }
         );
     }

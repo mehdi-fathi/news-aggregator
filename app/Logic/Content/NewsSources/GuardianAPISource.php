@@ -28,27 +28,28 @@ class GuardianAPISource implements NewsSource
     public EndPointFetcher $newsFetcherUtility;
 
     /**
-     * @var
+     * @var array
      */
-    public $params;
+    public array $params;
 
     /**
-     * @var
+     * @var string
      */
-    public $apiKey;
+    public string $apiKey;
 
     /**
-     * @var
+     * @var string
      */
-    public $url;
+    public string $url;
 
     /**
      * @param \App\Logic\Utility\EndPointFetcher $newsFetcherUtility
+     * @param string $apiKey
      */
-    public function __construct(EndPointFetcher $newsFetcherUtility)
+    public function __construct(EndPointFetcher $newsFetcherUtility, string $apiKey)
     {
         $this->newsFetcherUtility = $newsFetcherUtility;
-        $this->setApiKey('d7dc2505-78eb-4092-8289-2506b12ac2c3');
+        $this->setApiKey($apiKey);
     }
 
     /**
@@ -85,7 +86,6 @@ class GuardianAPISource implements NewsSource
     public function setApiKey(string $apiKey)
     {
         $this->apiKey = $apiKey;
-        return $this;
     }
 
     /**

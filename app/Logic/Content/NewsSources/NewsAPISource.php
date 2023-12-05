@@ -40,28 +40,31 @@ class NewsAPISource implements NewsSource
      */
     public EndPointFetcher $newsFetcherUtility;
 
-    /**
-     * @var
-     */
-    public mixed $params;
 
     /**
-     * @var
+     * @var array
      */
-    public mixed $apiKey;
+    public array $params;
 
     /**
-     * @var
+     * @var string
      */
-    public mixed $url;
+    public string $apiKey;
+
+    /**
+     * @var string
+     */
+    public string $url;
 
     /**
      * @param \App\Logic\Utility\EndPointFetcher $newsFetcherUtility
+     * @param string $apiKey
      */
-    public function __construct(EndPointFetcher $newsFetcherUtility)
+    public function __construct(EndPointFetcher $newsFetcherUtility, string $apiKey)
     {
         $this->newsFetcherUtility = $newsFetcherUtility;
-        $this->setApiKey('cedc49391f90414382ff139b743013c8');
+        $this->setApiKey($apiKey);
+
     }
 
     /**
@@ -75,7 +78,7 @@ class NewsAPISource implements NewsSource
     /**
      * @param mixed $params
      */
-    public function setParams(array $params = []): static
+    public function setParams(array $params = [])
     {
         $this->params = $params;
         return $this;
@@ -95,10 +98,9 @@ class NewsAPISource implements NewsSource
     /**
      * @param mixed $apiKey
      */
-    public function setApiKey(string $apiKey): static
+    public function setApiKey(string $apiKey)
     {
         $this->apiKey = $apiKey;
-        return $this;
     }
 
     /**
@@ -116,7 +118,7 @@ class NewsAPISource implements NewsSource
      * @param string $url
      * @return $this
      */
-    public function setUrl(string $url): static
+    public function setUrl(string $url)
     {
         $this->url = $url;
         return $this;

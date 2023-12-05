@@ -55,7 +55,6 @@ class NewsAPICollectorJob implements ShouldQueue
         $this->onQueue(QueueType::high);
         $this->newsService = app(NewsServiceInterface::class);
         $this->sourceService = app(SourceServiceInterface::class);
-        $this->newsSource = app(NewsAPISource::class);
 
         $this->limit = $limit;
     }
@@ -65,6 +64,8 @@ class NewsAPICollectorJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->newsSource = app(NewsAPISource::class);
+
         $resApi = $this->callRequest();
 
         $this->saveNews($resApi['articles']);

@@ -2,11 +2,16 @@
 
 namespace App\Logic\Content\NewsSources;
 
+use App\Logic\Utility\EndPointFetcher;
+
 /**
  *
  */
 interface NewsSource
 {
+
+    public function __construct(EndPointFetcher $newsFetcherUtility, string $apiKey);
+
     /**
      * @param string $apiKey
      * @return mixed
