@@ -25,11 +25,12 @@ class NewsListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'source' => 'required_without_all:published_at,category',
+            'source' => 'required_without_all:published_at,category,preference',
             'published_at' => [
-                'from' => 'required_without_all:source,category',
+                'from' => 'required_without_all:source,category,preference',
             ],
-            'category' => 'required_without_all:source,published_at',
+            'category' => 'required_without_all:source,published_at,preference',
+            'preference' => 'required_without_all:source,published_at,category'
         ];
 
     }

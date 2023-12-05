@@ -53,6 +53,23 @@ final class UserPreferenceService extends AppService
      */
     public function destroy(string $name)
     {
-        return $this->userPreferenceRepo->destroy($name);
+        return $this->userPreferenceRepo->delete($name);
+    }
+
+    /**
+     * @param string $name
+     * @return void|null
+     */
+    public function findOrFailByName(string $name)
+    {
+        return $this->userPreferenceRepo->findOrFailByName($name);
+    }
+
+    /**
+     * @return void|null
+     */
+    public function paginate()
+    {
+        return $this->userPreferenceRepo->paginate();
     }
 }

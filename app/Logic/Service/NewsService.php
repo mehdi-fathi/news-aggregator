@@ -23,9 +23,25 @@ final class NewsService extends AppService
 
     /**
      * @param $data
-     * @return array|null
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getFilteredNews($data)
+    public function getFilteredNews($data): \Illuminate\Database\Eloquent\Collection
+    {
+        if (!empty($data['preference'])) {
+            $UserPreferenceData = $this->UserPreferenceService->findOrFailByName($data['preference']);
+            $data = $UserPreferenceData['preferences'];
+        }
+
+        $this->filterNewsByData($data);
+
+        return $this->newsRepo->getFilteredData();
+    }
+
+    /**
+     * @param mixed $data
+     * @return void
+     */
+    private function filterNewsByData(mixed $data): void
     {
         collect($data)->filter()->each(function ($item, $key) {
             match ($key) {
@@ -34,10 +50,13 @@ final class NewsService extends AppService
                 'category' => $this->newsRepo->getFilteredByCategory($item),
             };
         });
-
-        return $this->newsRepo->getFilteredData();
     }
 
+
+    /**
+     * @param $text
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function searchNews($text)
     {
         $this->newsRepo->searchByText($text);
@@ -45,12 +64,22 @@ final class NewsService extends AppService
         return $this->newsRepo->getFilteredData();
     }
 
+    /**
+     * @param int $sourceId
+     * @param string $publishedAt
+     * @return int
+     */
     public function getCountNewsBySourceIdPublished(int $sourceId, string $publishedAt)
     {
         return $this->newsRepo->getCountNewsBySourceIdPublished($sourceId, $publishedAt);
     }
 
 
+    /**
+     * @param int $sourceId
+     * @param string $publishedAt
+     * @return int
+     */
     public function getLatestNewsBySourceIdPublished(int $sourceId, string $publishedAt)
     {
         return $this->newsRepo->getLatestNewsBySourceIdPublished($sourceId, $publishedAt);

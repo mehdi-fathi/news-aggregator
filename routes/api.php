@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::prefix('user-preference')->group(function () {
+        Route::get('/list', [\App\Http\Controllers\Api\UserPreferenceController::class, 'list']);
         Route::post('/store', [\App\Http\Controllers\Api\UserPreferenceController::class, 'store']);
         Route::put('/update', [\App\Http\Controllers\Api\UserPreferenceController::class, 'update']);
         Route::delete('/delete', [\App\Http\Controllers\Api\UserPreferenceController::class, 'delete']);

@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPreference extends Model
 {
+    protected $casts = [
+        'preferences' => 'array',
+    ];
+
+
     protected $fillable = [
         'name',
         'preferences'

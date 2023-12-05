@@ -16,11 +16,11 @@ class EloquentUserPreferenceRepository implements UserPreferenceRepository
 
     /**
      * EloquentUserPreferenceRepository constructor.
-     * @param UserPreference $source
+     * @param \App\Models\UserPreference $userPreference
      */
-    public function __construct(UserPreference $source)
+    public function __construct(UserPreference $userPreference)
     {
-        $this->model = $source;
+        $this->model = $userPreference;
     }
 
     /**
@@ -44,9 +44,25 @@ class EloquentUserPreferenceRepository implements UserPreferenceRepository
     /**
      * @return void
      */
-    public function destroy(string $name)
+    public function delete(string $name)
     {
         return $this->model->where('name', $name)->delete();
+    }
+
+    /**
+     * @return void
+     */
+    public function findOrFailByName(string $name)
+    {
+        return $this->model->where('name', $name)->firstOrFail();
+    }
+
+    /**
+     * @return void
+     */
+    public function paginate()
+    {
+        return $this->model->paginate();
     }
 
 }

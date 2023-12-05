@@ -13,6 +13,10 @@ class UserPreferenceController extends Controller
 
     public function list(Request $request)
     {
+
+        $data = $this->UserPreferenceService->paginate();
+
+        return response()->json($data);
     }
 
     // Store preferences

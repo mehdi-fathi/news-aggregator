@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redis;
 
 /**
  * @property  \App\Logic\Service\NewsService NewsService
+ * @property  \App\Logic\Service\UserPreferenceService UserPreferenceService
  */
 class AppService
 {
